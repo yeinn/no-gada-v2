@@ -27,7 +27,7 @@ const FileUploader = ({
     if (file && isChkExt) {
       handleSelectedFile(file);
     } else {
-      alert(`${acceptString} 파일만 업로드 가능합ㄴ디ㅏ.`);
+      alert(`${acceptString} 파일만 업로드 가능합니다.`);
       e.target.value = '';
     }
   };
