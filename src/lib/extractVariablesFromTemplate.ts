@@ -13,13 +13,17 @@ export function extractVariablesFromTemplate(file: File): Promise<string[]> {
         }
 
         const zip = new PizZip(arrayBuffer);
-        const doc = new Docxtemplater(zip, { paragraphLoop: true, linebreaks: true });
+        const doc = new Docxtemplater(zip, {
+          paragraphLoop: true,
+          linebreaks: true,
+          delimiters: { start: '{%', end: '%}' },
+        });
 
         const variables =
           doc
             .getFullText()
-            .match(/{{(.*?)}}/g)
-            ?.map((v) => v.replace(/[{}]/, '').trim()) ?? [];
+            .match(/{%(.*?)%}/g)
+            ?.map((v) => v.replace(/{%|%}/g, '').trim()) ?? [];
 
         const unique = [...new Set(variables)];
         resolve(unique);
