@@ -24,10 +24,6 @@ const Home = () => {
     return templateVals?.every((v) => mappingVals[v] && mappingVals[v] !== '') ?? false;
   }, [mappingVals, templateVals]);
 
-  const isUploaded = useMemo(() => {
-    return templateVals && dataColumns.length > 0;
-  }, [templateVals, dataColumns]);
-
   /** 파일 생성 */
   const handleClickGenerate = async () => {
     if (!templateFile || !templateVals || dataRows.length === 0) return;
@@ -128,13 +124,11 @@ const Home = () => {
       </div>
 
       {/* 매핑 및 생성 카드 */}
+      {/* {templateVals && dataColumns.length > 0 && ( */}
       <>
-        <div className={`text-3xl z-10 ${!isUploaded && 'opacity-20'}`}>➡️</div>
-        <div
-          className={`w-full max-w-md p-8 bg-white rounded-2xl shadow-xl flex flex-col gap-4 z-10  ${
-            !isUploaded && 'opacity-20'
-          }`}
-        >
+        <div className="text-3xl z-10">➡️</div>
+
+        <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-xl flex flex-col gap-4 z-10">
           <VariableMapper
             templateVariables={templateVals || []}
             dataColumns={dataColumns}
@@ -152,6 +146,7 @@ const Home = () => {
           </button>
         </div>
       </>
+      {/* )} */}
     </div>
   );
 };
