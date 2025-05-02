@@ -3,15 +3,13 @@ import Docxtemplater from 'docxtemplater';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 
-export async function generateDocxZip({
-  templateFile,
-  dataRows,
-  mapping,
-}: {
+interface generateDocxZipProps {
   templateFile: File;
   dataRows: Record<string, string | number | null>[];
   mapping: Record<string, string | null>;
-}): Promise<void> {
+}
+
+export async function generateDocxZip({ templateFile, dataRows, mapping }: generateDocxZipProps): Promise<void> {
   const reader = new FileReader();
 
   return new Promise((resolve, reject) => {

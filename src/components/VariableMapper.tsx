@@ -42,6 +42,14 @@ const VariableMapper = ({ templateVariables, dataColumns, handleChangeMapping }:
   return (
     <div className="space-y-6">
       <h2 className="text-lg font-semibold">🧩 템플릿 변수 - 데이터 컬럼 매칭</h2>
+      <div className="flex gap-x-3">
+        <button onClick={handleAutoMap} className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">
+          🔁 자동 매칭
+        </button>
+        <button onClick={handleReset} className="bg-gray-400 text-white px-4 py-1 rounded hover:bg-gray-500">
+          🗑 초기화
+        </button>
+      </div>
       <div className="flex items-center gap-x-4 border-b pb-1 font-semibold text-gray-600 text-sm">
         <div className="w-1/2">템플릿 변수</div>
         <div className="w-1/2">데이터 컬럼</div>
@@ -64,15 +72,6 @@ const VariableMapper = ({ templateVariables, dataColumns, handleChangeMapping }:
           </select>
         </div>
       ))}
-
-      <div className="flex gap-x-3">
-        <button onClick={handleAutoMap} className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">
-          🔁 자동 매칭
-        </button>
-        <button onClick={handleReset} className="bg-gray-400 text-white px-4 py-1 rounded hover:bg-gray-500">
-          🗑 초기화
-        </button>
-      </div>
     </div>
   );
 };
