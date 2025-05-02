@@ -5,6 +5,8 @@ import DataPreview from '@/components/DataPreview';
 import { extractVariablesFromTemplate } from '@/lib/extractVariablesFromTemplate';
 import VariableMapper from '@/components/VariableMapper';
 import { generateDocxZip } from '@/lib/generateDocsZip';
+import toast from 'react-hot-toast';
+import Header from '@/components/Header';
 
 const Home = () => {
   const [templateFile, setTemplateFile] = useState<File | null>(null);
@@ -29,9 +31,10 @@ const Home = () => {
 
     try {
       await generateDocxZip({ templateFile, dataRows, mapping: mappingVals });
+      toast.success('DOCX 파일로 변환 완료!');
     } catch (e) {
       console.error('문서 생성 실패:', e);
-      alert('❌ 문서 생성에 실패했습니다.');
+      toast.error('파일 생성 중 오류가 발생했어요.');
     } finally {
       setIsGenerating(false);
     }
@@ -43,7 +46,6 @@ const Home = () => {
     try {
       const vars = await extractVariablesFromTemplate(file);
       setTemplateVals(vars);
-      console.log('템플릿 변수:: ', vars);
     } catch (e) {
       console.error('템플릿 변수 추출 실패', e);
     }
@@ -73,48 +75,68 @@ const Home = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gray-50 gap-6">
-      <div className="absolute top-10 left-1/2 -translate-x-1/2 text-4xl font-extrabold text-gray-800 tracking-tight text-center">
-        NO!GADA<span className="text-blue-600">.</span>
-        <div className="mt-5 text-lg font-semibold">
-          🤖 워드 파일에 데이터 반복 입력 <span className="text-blue-600">노가다</span> 대신 해드려요.
-        </div>
-      </div>
+      <Header />
+      {/* 파일 업로드 카드 */}
+      <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-xl z-10">
+        <h2 className="text-lg font-semibold mb-4">💾 파일 업로드</h2>
 
-      <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-xl shadow-gray-200">
-        <h2 className="text-lg font-semibold">💾 파일 업로드</h2>
         <FileUploader
           label="📑 템플릿 업로드 (.docx)"
           acceptExt={['.docx']}
           buttonColor="bg-blue-600 hover:bg-blue-700"
           handleSelectedFile={handleTemplateFile}
           fileName={templateFile?.name}
+          tooltip={
+            <>
+              📝 템플릿 문서 안에 <b>{'{%이름%}'}</b>, <b>{'{%전화번호%}'}</b>처럼
+              <b> 대체 문구</b>를 입력해주세요.
+              <br />
+              <br />
+              문서 생성 시 데이터에 맞게 자동으로 치환됩니다!
+            </>
+          }
         />
+
         <FileUploader
           label="🅰️ 데이터 업로드 (.csv)"
           acceptExt={['.csv']}
           buttonColor="bg-green-600 hover:bg-green-700"
           handleSelectedFile={handleDataFile}
           fileName={dataFile?.name}
+          tooltip={
+            <>
+              📌 <b>CSV 파일의 첫 줄</b>에는 컬럼명(예: 이름, 전화번호 등)을 적어주세요. 이 컬럼들은 템플릿 문서의{' '}
+              <b>{'{%이름%}'}</b> 같은 <b>대체 문구</b>와 연결됩니다.
+              <br />
+              <br />
+              컬럼명과 대체 문구가 동일하면 <b>자동 매핑</b>되며, 필요 시 수동으로도 연결할 수 있습니다.
+              <br />
+              <br />
+              💡 Excel에서 <b>다른 이름으로 저장 &gt; "CSV UTF-8"</b> 형식으로 저장해주세요. 일반 CSV는{' '}
+              <span className="text-red-300">한글이 깨질 수 있어요!</span>
+            </>
+          }
         />
 
-        {dataError && <p className="text-sm text-red-500 mt-4">{dataError}</p>}
+        {dataError && <p className="mt-4 text-sm text-red-500">{dataError}</p>}
+
         <DataPreview columns={dataColumns} rows={dataRows} />
       </div>
+
+      {/* 매핑 및 생성 카드 */}
       {templateVals && dataColumns.length > 0 && (
         <>
-          <div className="text-3xl">➡️</div>
-          <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-xl shadow-gray-200 flex flex-col gap-4">
+          <div className="text-3xl z-10">➡️</div>
+
+          <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-xl flex flex-col gap-4 z-10">
             <VariableMapper
               templateVariables={templateVals}
               dataColumns={dataColumns}
-              handleChangeMapping={(mapping) => {
-                setMappingVals(mapping);
-                console.log('매핑 상태:', mapping);
-              }}
+              handleChangeMapping={(mapping) => setMappingVals(mapping)}
             />
 
             <button
-              className={`px-4 py-2 rounded text-white font-semibold transition ${
+              className={`px-4 py-2 rounded font-semibold text-white transition ${
                 validation ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-gray-300 cursor-not-allowed'
               }`}
               disabled={!validation}
