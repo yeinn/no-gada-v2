@@ -33,7 +33,7 @@ const VariableMapper = ({ templateVariables, dataColumns, handleChangeMapping }:
   useEffect(() => {
     const initial = Object.fromEntries(templateVariables.map((v) => [v, null]));
     setMapping(initial);
-  }, [templateVariables]);
+  }, []);
 
   useEffect(() => {
     handleChangeMapping(mapping);
@@ -41,7 +41,7 @@ const VariableMapper = ({ templateVariables, dataColumns, handleChangeMapping }:
 
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-semibold">🧩 템플릿 키워드 - 데이터 컬럼 매칭</h2>
+      <h2 className="text-lg font-semibold">🧩 템플릿 키워드 - 데이터 헤더 매칭</h2>
       <div className="flex gap-x-3">
         <button onClick={handleAutoMap} className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">
           🔁 자동 매칭
