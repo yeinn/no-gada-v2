@@ -33,7 +33,7 @@ const VariableMapper = ({ templateVariables, dataColumns, handleChangeMapping }:
   useEffect(() => {
     const initial = Object.fromEntries(templateVariables.map((v) => [v, null]));
     setMapping(initial);
-  }, []);
+  }, [templateVariables]);
 
   useEffect(() => {
     handleChangeMapping(mapping);
@@ -52,7 +52,7 @@ const VariableMapper = ({ templateVariables, dataColumns, handleChangeMapping }:
       </div>
       <div className="flex items-center gap-x-4 border-b pb-1 font-semibold text-gray-600 text-sm">
         <div className="w-1/2">템플릿 키워드</div>
-        <div className="w-1/2">데이터 헤더</div>
+        <div className="w-1/2">데이터 더더</div>
       </div>
 
       {templateVariables.map((templateVar) => (
