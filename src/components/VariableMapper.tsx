@@ -41,7 +41,7 @@ const VariableMapper = ({ templateVariables, dataColumns, handleChangeMapping }:
 
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-semibold">🧩 템플릿 변수 - 데이터 컬럼 매칭</h2>
+      <h2 className="text-lg font-semibold">🧩 템플릿 키워드 - 데이터 컬럼 매칭</h2>
       <div className="flex gap-x-3">
         <button onClick={handleAutoMap} className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">
           🔁 자동 매칭
@@ -51,8 +51,8 @@ const VariableMapper = ({ templateVariables, dataColumns, handleChangeMapping }:
         </button>
       </div>
       <div className="flex items-center gap-x-4 border-b pb-1 font-semibold text-gray-600 text-sm">
-        <div className="w-1/2">템플릿 변수</div>
-        <div className="w-1/2">데이터 컬럼</div>
+        <div className="w-1/2">템플릿 키워드</div>
+        <div className="w-1/2">데이터 헤더</div>
       </div>
 
       {templateVariables.map((templateVar) => (

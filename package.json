@@ -13,10 +13,12 @@
     "docxtemplater": "^3.61.1",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
+    "lottie-react": "^2.4.1",
     "papaparse": "^5.5.2",
     "pizzip": "^3.1.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hot-toast": "^2.5.2",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
